@@ -15,11 +15,21 @@ const sliderImages = document.querySelectorAll(".slide-in");
      if (callNow) func.apply(context, args);
    };
  }
-  function checkSlide(e) {
-    sliderImages.forEach((slideImage) => {
-      const slideInAt = (window.scrollY + window.innerHeight)- slideImage.height/2;
-       console.log(slideInAt)
-    })
-  }
+    function checkSlide() {
+      sliderImages.forEach((sliderImage) => {
+        // half way through the image
+        const slideInAt =
+          window.scrollY + window.innerHeight - sliderImage.height / 2;
+        // bottom of the image
+        const imageBottom = sliderImage.offsetTop + sliderImage.height;
+        const isHalfShown = slideInAt > sliderImage.offsetTop;
+        const isNotScrolledPast = window.scrollY < imageBottom;
+        if (isHalfShown && isNotScrolledPast) {
+          sliderImage.classList.add("active");
+        } else {
+          sliderImage.classList.remove("active");
+        }
+      });
+    }
 
  window.addEventListener("scroll", debounce(checkSlide));
